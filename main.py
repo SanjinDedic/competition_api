@@ -40,18 +40,6 @@ async def login(team: Login):
         return {"message": "Login successful", "score": team[2], "solved_questions": team[3], "color": team[4],"connected": team[5]}
 
 
-@app.get("/download_starter_code/{id}",response_class=FileResponse)
-async def download_starter_code(id: str):
-    return 'questions/' + id + '_starter.py'
-
-
-#See if we can download the file from database?
-#See if we can attach headers to this response that contain the file name
-@app.get("/download_input_file/{id}", response_class=FileResponse)
-async def download_input_file(id: str):
-    return 'questions/' + id + '_input.txt'
-
-
 @app.get("/get_question/{id}")
 async def get_question(id: str):
     attachment = ''
@@ -69,6 +57,18 @@ async def get_question(id: str):
             attachment += 'Download input file ' + question[5]
         return {"question": question[1] + attachment}
     
+
+@app.get("/download_starter_code/{id}",response_class=FileResponse)
+async def download_starter_code(id: str):
+    return 'questions/' + id + '_starter.py'
+
+
+#See if we can download the file from database?
+#See if we can attach headers to this response that contain the file name
+@app.get("/download_input_file/{id}", response_class=FileResponse)
+async def download_input_file(id: str):
+    return 'questions/' + id + '_input.txt'
+
 
 @app.get("/get_teams_table")
 async def get_teams_table():
@@ -95,6 +95,7 @@ async def submit_answer(a: Answer):
     else:
         return {"message": "Incorrect"}
         
+
 
 def update_teams_table(question_id, points_won, team_name):
     conn = sqlite3.connect('database.db')
