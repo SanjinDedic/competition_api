@@ -8,4 +8,4 @@ The oo_package.py file is pip installed locally it simplifies the API calls, pro
 Here is the diagram showing the classes, files and the database
 
 
-![Diagram](diagram.JPG)
+![Diagram](Diagram.png)
