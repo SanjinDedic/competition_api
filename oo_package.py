@@ -54,12 +54,44 @@ class Quiz:
         else:
             return 'API Connection error'
 
-    def team_menu(self):
+    def interactive_menu(self):
         if self.__logged_in == False:
             print('login first')
             return
-        self.team.team_menu()
-    
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print('Welcome to VCC 2023', self.team_name,'What would you like to do?')
+        print('1. View Question')
+        print('2. Submit Answer')
+        print('3. View Scoreboard')
+        print('4. View answered questions')
+        print('5. Exit')
+        choice = input('Enter your choice:')
+        if choice == '1':
+            question_num = input('Enter question number:')
+            question = self.get_question(question_num)
+            print(question)
+            input('Press enter to continue')
+            self.interactive_menu()
+        elif choice == '2':
+            question_num = input('Enter question number:')
+            print('Question:',self.get_question(question_num))
+            answer = input('Enter answer:')
+            result = self.submit_answer(question_num,answer)
+            print(result)
+            input('Press enter to continue')
+            self.interactive_menu()
+        elif choice == '3':
+            self.print_rankings()
+            input('Press enter to continue')
+            self.interactive_menu()
+        elif choice == '4':
+            print('Here is the list of the questions you have answered:')
+            print(self.team.solved_questions)
+            input('Press enter to continue')
+            self.interactive_menu()
+        elif choice == '5':
+            print('Goodbye')
+            return
 
 
 
@@ -92,20 +124,6 @@ class Team():
         else:
             return 'API Connection error'
 
-'''
-    def team_menu(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print('1. Submit Flag')
-        print('2. View Scoreboard')
-        print('3. View Team Status')
-        print('4. Exit')
-        choice = input('Enter your choice:')
-        if choice == '1':
-            self.flag_submission()
-        elif choice == '2':
-            pass
-'''
-
 
 class Scoreboard():
     def __init__(self,teams_data):
@@ -132,3 +150,6 @@ class Scoreboard():
         for team in ordered_teams:
             print(team)
 
+if __name__ == "__main__":
+    quiz = Quiz('team1','team1')
+    quiz.interactive_menu()
