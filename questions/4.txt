@@ -1,0 +1,21 @@
+The input file contains a list of strings, one per line. The strings are all lowercase. Your job is to print
+out the strings that meet the following criteria:
+
+   Good strings have more than one letter 'c'.
+   Good strings contain a letter 'e' in the first 3 letters.
+   Good strings have at least 6 vowels.
+
+
+Here is some starter code that can help you get started:
+
+###CODE STARTS HERE###
+
+input_file = open('input.txt')
+contents = input_file.read()
+strings = contents.split('\n')
+
+for s in strings:
+    if 'xrj' in s:
+        print(s)
+
+###CODE ENDS HERE###
