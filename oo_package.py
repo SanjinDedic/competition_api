@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app
+from APP.main import app
 import json
 import os
 
