@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from main import app
 import json
 import os
+import time
 
 client = TestClient(app=app)
 
@@ -77,6 +78,17 @@ class Quiz:
         scoreboard = Scoreboard(teams_data = teams_data)
         scoreboard.print_status(self.team_name)
 
+    def live(self):
+        if self.__logged_in == False:
+            print('login first')
+            return
+        teams_data = self.get_teams_table()
+        scoreboard = Scoreboard(teams_data = teams_data)
+        scoreboard.print_rankings()
+        time.sleep(1)
+        os.system('cls' if os.name == 'nt' else 'clear')
+        self.live()
+
     def interactive_menu(self):
         if self.__logged_in == False:
             print('login first')
@@ -118,16 +130,26 @@ class Quiz:
 
 
 class Team():
-    def __init__(self, name, score, solved_questions=[]):
+    def __init__(self, name, score, solved_questions=[],color='\033[1m'):
         self.name = name
         self.score = score
         self.solved_questions = solved_questions
+        self.color = color
 
     def __str__(self):
-        if len(self.name) < 8:
-            answer = "TEAM NAME: "+ self.name + "\t\t  SCORE: " + str(self.score) + "\t  ANSWERED QUESTIONS: " + str(len(self.solved_questions))
+        c = self.color
+        b = '\033[1m'
+        nb = '\033[0m'
+        first = "| "+ c + "NAME: "+b+ self.name + nb
+        second = "| "+ c + "SCORE: " + b + str(self.score) + nb
+        third = "| "+ c + "ANSWERED QUESTIONS: " + b +  str(len(self.solved_questions)) + nb + "\t|" + '\033[0m'
+
+        if len(first) <= 8:
+            answer = first + "\t\t" + second + "\t\t" + third
+        elif len(first) <= 16:
+            answer = first + "\t" + second + "\t\t" + third
         else:
-            answer = "TEAM NAME: "+ self.name + "\t  SCORE: " + str(self.score) + + "\t  ANSWERED QUESTIONS: " + str(len(self.solved_questions))
+            answer = first + "\t\t\t" + second + "\t\t" + third
         return answer
 
 
@@ -140,15 +162,19 @@ class Scoreboard():
     def load_teams(self):
         for team in self.teams_data['teams']:
             solved_qs = json.loads(team[3])
-            self.teams.append(Team(name=team[0],score=team[2],solved_questions=solved_qs))     
+            color = team[4]
+            self.teams.append(Team(name=team[0],score=team[2],solved_questions=solved_qs,color=color))     
 
     def print_rankings(self):
         #this function needs to add colors to the teams which are read from the json file
         #os.system('cls' if os.name == 'nt' else 'clear')
         ordered_teams = sorted(self.teams, key=lambda x: x.score, reverse=True)
+        headline = '\033[1m' + 'HERE IS THE CURRENT SCOREBOARD' + '\033[0m'
+        print(headline.center(97,'.'))
+        print('-'*89)
         for team in ordered_teams:
             print(team)
-    
+        print('-'*89)
     def print_status(self,team_name):
         for team in self.teams:
             if team.name == team_name:

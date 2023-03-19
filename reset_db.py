@@ -55,10 +55,10 @@ c.execute('''CREATE TABLE teams
 solved_qs = json.dumps([])
 print(solved_qs, type(solved_qs))
 
-c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('team1', 'team1', 0, solved_qs, 'red', False))
-c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('team2', 'team2', 0, solved_qs, 'blue', False))
-c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('team3', 'team3', 0, solved_qs, 'green', False))
-c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('team4', 'team4', 0, solved_qs, 'yellow', False))
+c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('Mount Waverley', 'abc', 0, solved_qs, '\033[33m', False))
+c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('Box Hill', 'abc', 0, solved_qs, '\033[34m', False))
+c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('Melbourne High', 'abc', 0, solved_qs, '\033[92m', False))
+c.execute("INSERT INTO teams VALUES (?, ?, ?, ?, ?, ?)", ('Wantirna', 'abc', 0, solved_qs, '\033[35m', False))
 
 conn.commit()
 conn.close()
