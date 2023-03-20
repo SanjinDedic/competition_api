@@ -1,8 +1,7 @@
 from fastapi.testclient import TestClient
-import sys
+from main import app
 import time
-sys.path.insert(0, 'G:\My Drive\PROJECTS\FAST_API_TEST\APP')
-from app import main
+
 client = TestClient(app=app)
 
 
