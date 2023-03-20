@@ -5,15 +5,15 @@ import json
 import sqlite3
 import os
 
-os.remove('database.db')
-conn = sqlite3.connect('database.db')
+os.remove('../APP/database.db')
+conn = sqlite3.connect('../APP/database.db')
 c = conn.cursor()
 c.execute('''CREATE TABLE questions
                 (id text, question_content text, answer text, points integer, starter_file text, input_file text)''')
 
-for filename in os.listdir('questions'):
+for filename in os.listdir('../questions'):
     if filename.endswith('.txt') and not 'input' in filename:
-        with open('questions/' + filename, 'r') as f:
+        with open('../questions/'+filename, 'r') as f:
             id = filename[:-4]
             points = -(-int(id)//10)*10 #10 pts for first 10 questions, 20 for next 10, 30 for next 10, etc.
             content = f.read()
@@ -31,9 +31,9 @@ for filename in os.listdir('questions'):
         c.execute("UPDATE questions SET input_file = ? WHERE id = ?", (filename, id))
     
 
-for filename in os.listdir('solutions'):
+for filename in os.listdir('../solutions'):
     if filename.endswith('.txt'):
-        with open('solutions/' + filename, 'r') as f:
+        with open('../solutions/' + filename, 'r') as f:
             answer = f.read()
             #write answer to the database
             c.execute("UPDATE questions SET answer = ? WHERE id = ?", (answer, filename[:-4]))

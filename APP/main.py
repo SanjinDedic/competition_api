@@ -19,7 +19,7 @@ class Login(BaseModel):
 
 @app.get("/")
 async def home():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../APP/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM questions")
     questions = c.fetchall()
@@ -30,7 +30,7 @@ async def home():
 async def login(team: Login):
     team_name = team.name
     team_password = team.password
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../APP/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM teams WHERE name = ? AND password = ?", (team_name, team_password))
     team = c.fetchone()
@@ -43,7 +43,7 @@ async def login(team: Login):
 @app.get("/get_question/{id}")
 async def get_question(id: str):
     attachment = ''
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../APP/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM questions WHERE id = ?", (id,))
     question = c.fetchone()
@@ -72,7 +72,7 @@ async def download_input_file(id: str):
 
 @app.get("/get_teams_table")
 async def get_teams_table():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../APP/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM teams")
     teams = c.fetchall()
@@ -82,7 +82,7 @@ async def get_teams_table():
 #just need to figure out how to get the solved questions list updated in the database
 @app.post("/submit_answer")
 async def submit_answer(a: Answer):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../APP/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM questions WHERE id = ?", (a.id,))
     question = c.fetchone()
@@ -98,7 +98,7 @@ async def submit_answer(a: Answer):
 
 
 def update_teams_table(question_id, points_won, team_name):
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../APP/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM teams WHERE name = ?", (team_name,))
     team = c.fetchone()

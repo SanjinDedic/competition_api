@@ -1,6 +1,8 @@
 from fastapi.testclient import TestClient
-from APP.main import app
 import time
+import sys,os
+sys.path.append('../APP')
+from main import app
 
 client = TestClient(app=app)
 
@@ -107,7 +109,8 @@ def get_teams_table():
 #this always needs to be the last test
 def reset_db_just_run_file():
     time.sleep(1)
-    with open("reset_db.py") as f:
+    script_path = os.path.join(os.path.dirname(__file__), '..', 'APP', 'reset_db.py')
+    with open(script_path) as f:
         exec(f.read())
     time.sleep(1)
 

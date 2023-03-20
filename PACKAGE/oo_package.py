@@ -1,5 +1,7 @@
 from fastapi.testclient import TestClient
-from APP.main import app
+import sys,os
+sys.path.append('../APP')
+from main import app
 import json
 import os
 

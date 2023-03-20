@@ -1,8 +1,11 @@
+import sys,os
+sys.path.append('../PACKAGE')
+
 from oo_package import Quiz
 import time
 
 time.sleep(1)
-with open("reset_db.py") as f:
+with open("../APP/reset_db.py") as f:
     exec(f.read())
 time.sleep(1)
 
